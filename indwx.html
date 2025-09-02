@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maryam Siddique | Portfolio</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background: #f9fafc;
+            color: #333;
+        }
+
+        header {
+            background: #111827;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin-top: 0.5rem;
+            color: #9ca3af;
+        }
+
+        /* Navbar */
+        nav {
+            background: #1f2937;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        nav .nav-links a {
+            color: #fff;
+            margin-left: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        section {
+            padding: 3rem 2rem;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* About Section */
+        .about {
+            text-align: center;
+        }
+
+        .about img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 4px solid #1f2937;
+        }
+
+        .about h2 {
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: #1f2937;
+        }
+
+        .about p {
+            margin: 0.5rem 0;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .about .tech-stack {
+            margin-top: 2rem;
+            text-align: left;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .about .tech-stack h3 {
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        .about .tech-stack ul {
+            list-style: none;
+            columns: 2;
+            padding: 0;
+        }
+
+        .about .tech-stack li {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .skills ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .skills li {
+            background: #e5e7eb;
+            padding: 0.8rem;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Updated Project Styles */
+        .project {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-content {
+            flex: 1;
+        }
+
+        .project-content h3 {
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .project-content p {
+            color: #444;
+        }
+
+        .project-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .project-image h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #374151;
+        }
+
+        .project-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: #111827;
+            color: #9ca3af;
+            margin-top: 2rem;
+        }
+
+        /* Responsive projects layout */
+        @media (max-width: 768px) {
+            .project-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .project-card img {
+                width: 100%;
+                max-width: 300px;
+                margin: 1rem auto;
+            }
+
+            section {
+                padding: 2rem 1rem
+            }
+
+            h1,
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Maryam Siddique</h1>
+        <p>Full Stack Developer | MERN | NestJS | React Native | Flutter</p>
+    </header>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">MS</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>About Me</h2>
+        <p>I'm <strong>Maryam Siddique</strong>, a Computer Science graduate and skilled Full Stack Developer with
+            strong command over the <strong>MERN stack</strong>, modern backend frameworks like <strong>NestJS</strong>,
+            and cross-platform mobile development using <strong>React Native</strong> and <strong>Flutter</strong>.</p>
+        <p>I’ve built everything from real-time chat apps and Twitter clones to robust business dashboards and
+            offline-ready mobile platforms—always with a focus on performance, scalability, and user experience.</p>
+
+        <div class="tech-stack">
+            <h3>Tech Stack</h3>
+            <ul>
+                <li>React.js, Redux, Node.js, NestJS</li>
+                <li>MongoDB, MySQL, PHP, C++, C#</li>
+                <li>React Native, Flutter</li>
+                <li>Cypress, Postman, Git, Figma</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="skills">
+        <h2>Skills</h2>
+        <ul>
+            <li>React.js</li>
+            <li>MERN</li>
+            <li>NestJS</li>
+            <li>MongoDB</li>
+            <li>React Native</li>
+            <li>Flutter</li>
+        </ul>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects">
+
+            <div class="project">
+                <div class="project-content">
+                    <h3>Recipe App</h3>
+                    <p>A cross-platform recipe app developed using <strong>React Native</strong> and
+                        <strong>NestJS</strong>.
+                        Includes image uploads, offline storage, and step-by-step cooking guides.
+                    </p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="/home/dev/Documents/Porfolio/images/recipie.jpeg" alt="Recipe App Screenshot">
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-content">
+                    <h3>Vdermx App</h3>
+                    <p>A healthcare app for <strong>Lumpy Skin Disease detection</strong> using <strong>React
+                            Native</strong> and <strong>NestJS</strong>.
+                        Provides image-based disease detection and reports for veterinary use.</p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="/home/dev/Documents/Porfolio/images/vdermx.jpeg" alt="Vdermx App Screenshot">
+                </div>
+            </div>
+            <div class="project">
+                <div class="project-content">
+                    <h3>Websites Collection</h3>
+                    <p>Created various modern websites using <strong>HTML</strong>, <strong>CSS</strong>, and
+                        <strong>JavaScript</strong>.
+                        Includes responsive landing pages, portfolios, and business sites.
+                    </p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="/home/dev/Documents/Porfolio/images/website.jpeg" alt="Websites Screenshot">
+                </div>
+            </div>
+            <div class="project">
+                <div class="project-content">
+                    <h3>Groupie Chat App</h3>
+                    <p>A real-time group chat application built using <strong>Flutter</strong> and
+                        <strong>Firebase</strong>.
+                        Features include group messaging, authentication, and push notifications.
+                    </p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="/home/dev/Documents/Porfolio/images/Groupie.jpeg" alt="Groupie Chat App Screenshot">
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-content">
+                    <h3>Twitter Clone</h3>
+                    <p>A social networking clone of Twitter built with <strong>Flutter</strong>, featuring
+                        authentication,
+                        feeds, likes, comments, and real-time updates.</p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="/home/dev/Documents/Porfolio/images/twitter.jpeg" alt="Twitter Clone Screenshot">
+                </div>
+            </div>
+
+
+            <div class="project">
+                <div class="project-content">
+                    <h3>Business Applications</h3>
+                    <p>Developed multiple business and enterprise-level applications using <strong>C++</strong> and
+                        <strong>C#</strong>,
+                        focusing on scalability, performance, and automation.
+                    </p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="https://via.placeholder.com/300x180" alt="Business Applications Screenshot">
+                </div>
+            </div>
+
+            <div class="project">
+                <div class="project-content">
+                    <h3>Coursera Clone</h3>
+                    <p>A learning management system built with <strong>PHP</strong>,
+                        featuring course management, user authentication, and progress tracking.</p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="https://via.placeholder.com/300x180" alt="Coursera Clone Screenshot">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:maryamsiddique449@gmail.com">maryamsiddique449@gmail.com</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Maryam Siddique. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
