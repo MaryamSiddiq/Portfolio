@@ -142,6 +142,7 @@
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
+          
 
         /* Updated Project Styles */
         .project {
@@ -156,6 +157,7 @@
             gap: 1.5rem;
             transition: transform 0.3s;
         }
+      
 
         .project:hover {
             transform: translateY(-5px);
@@ -163,6 +165,10 @@
 
         .project-content {
             flex: 1;
+        }
+          .project-content2 {
+            flex: 1;
+            margin-bottom: -20;
         }
 
         .project-content h3 {
@@ -178,7 +184,23 @@
             flex: 1;
             text-align: center;
         }
+         .project-image2 {
+            flex: 1;
+            text-align: center;
+            margin-top: -200;
+        }
+ .project-image2 h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #374151;
+        }
 
+        .project-image2 img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
         .project-image h4 {
             margin-bottom: 0.5rem;
             font-size: 1rem;
@@ -237,7 +259,7 @@
 <body>
     <header>
         <h1>Maryam Siddique</h1>
-        <p>Full Stack Developer | MERN | NestJS | React Native | Flutter</p>
+        <p>Full Stack Developer | Flutter | NestJS | React Native | MERN </p>
     </header>
 
     <!-- Navbar -->
@@ -258,7 +280,9 @@
             strong command over the <strong>MERN stack</strong>, modern backend frameworks like <strong>NestJS</strong>,
             and cross-platform mobile development using <strong>React Native</strong> and <strong>Flutter</strong>.</p>
         <p>I’ve built everything from real-time chat apps and Twitter clones to robust business dashboards and
-            offline-ready mobile platforms—always with a focus on performance, scalability, and user experience.</p>
+            offline-ready mobile platforms—always with a focus on performance, scalability, and user experience.I have
+            hands-on experience integrating REST APIs in multiple cross-platform apps, including tourism, social, and
+            utility applications.</p>
 
         <div class="tech-stack">
             <h3>Tech Stack</h3>
@@ -275,12 +299,12 @@
     <section id="skills" class="skills">
         <h2>Skills</h2>
         <ul>
+            <li>Flutter</li>
+            <li>React Native</li>
             <li>React.js</li>
             <li>MERN</li>
             <li>NestJS</li>
             <li>MongoDB</li>
-            <li>React Native</li>
-            <li>Flutter</li>
         </ul>
     </section>
 
@@ -317,71 +341,32 @@
             </div>
             <div class="project">
                 <div class="project-content">
-                    <h3>Websites Collection</h3>
-                    <p>Created various modern websites using <strong>HTML</strong>, <strong>CSS</strong>, and
-                        <strong>JavaScript</strong>.
-                        Includes responsive landing pages, portfolios, and business sites.
+                    <h3>Music App</h3>
+                    <p>Vii Music: A complete music streaming platform with <strong>React Native</strong> mobile app and Node.js backend for personalized audio playback and user management.</p>
+                </div>
+                <div class="project-image">
+                    <h4>Preview</h4>
+                    <img src="images/Music.jpeg" alt="Bora App Screenshot">
+                </div>
+            </div>
+            <div class="project">
+                <div class="project-content">
+                    <h3>Pet Adoption & Selling App</h3>
+                    <p>An Instagram-like social platform built using <strong>Flutter</strong> and
+                        <strong>Supabase</strong>.
+                        Each user has a personal profile, can upload posts, browse pets,
+                        adopt or sell pets, and chat via real-time direct messages.
+                        Features include image uploads, notifications, and a social feed.
                     </p>
                 </div>
                 <div class="project-image">
                     <h4>Preview</h4>
-                    <img src="images/website.jpeg" alt="Websites Screenshot">
+                    <img src="images/Pet.jpeg" alt="Pet App Screenshot">
                 </div>
             </div>
-            <div class="project">
-                <div class="project-content">
-                    <h3>Groupie Chat App</h3>
-                    <p>A real-time group chat application built using <strong>Flutter</strong> and
-                        <strong>Firebase</strong>.
-                        Features include group messaging, authentication, and push notifications.
-                    </p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/Groupie.jpeg" alt="Groupie Chat App Screenshot">
-                </div>
-            </div>
+            
 
-            <div class="project">
-                <div class="project-content">
-                    <h3>Twitter Clone</h3>
-                    <p>A social networking clone of Twitter built with <strong>Flutter</strong>, featuring
-                        authentication,
-                        feeds, likes, comments, and real-time updates.</p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/twitter.jpeg" alt="Twitter Clone Screenshot">
-                </div>
-            </div>
-
-
-            <div class="project">
-                <div class="project-content">
-                    <h3>Business Applications</h3>
-                    <p>Developed multiple business and enterprise-level applications using <strong>C++</strong> and
-                        <strong>C#</strong>,
-                        focusing on scalability, performance, and automation.
-                    </p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="https://via.placeholder.com/300x180" alt="Business Applications Screenshot">
-                </div>
-            </div>
-
-            <div class="project">
-                <div class="project-content">
-                    <h3>Coursera Clone</h3>
-                    <p>A learning management system built with <strong>PHP</strong>,
-                        featuring course management, user authentication, and progress tracking.</p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="https://via.placeholder.com/300x180" alt="Coursera Clone Screenshot">
-                </div>
-            </div>
-
+         
         </div>
     </section>
 
