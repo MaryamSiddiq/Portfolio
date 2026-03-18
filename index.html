@@ -127,6 +127,8 @@
             cursor: pointer;
             border: none;
             background-color: transparent;
+            flex-shrink: 0;
+            z-index: 1001;
         }
 
         .nav-links {
@@ -151,6 +153,125 @@
             color: var(--accent);
             border-color: var(--border);
             background: rgba(56, 189, 248, 0.06);
+        }
+
+        /* ── HAMBURGER BUTTON ── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px;
+            z-index: 1001;
+            transition: border-color 0.2s;
+        }
+
+        .hamburger:hover {
+            border-color: var(--accent);
+        }
+
+        .hamburger span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background: var(--text-muted);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+            background: var(--accent);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+            background: var(--accent);
+        }
+
+        /* ── MOBILE MENU OVERLAY ── */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            width: 100%;
+            background: rgba(4, 11, 20, 0.97);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            padding: 1.2rem 1.5rem 1.8rem;
+            flex-direction: column;
+            gap: 0.4rem;
+            animation: menuSlideDown 0.25s ease both;
+        }
+
+        @keyframes menuSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .mobile-menu a i {
+            width: 20px;
+            text-align: center;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a:active {
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.07);
+            border-color: var(--border);
+        }
+
+        @media(max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
         }
 
         /* ── PAGES ── */
@@ -1331,8 +1452,21 @@
                 <a onclick="navTo('projects')">Projects</a>
                 <a onclick="navTo('contact')">Contact</a>
             </div>
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a onclick="mobileNavTo('home')"><i class="fas fa-house"></i> Home</a>
+        <a onclick="mobileNavTo('about')"><i class="fas fa-user"></i> About</a>
+        <a onclick="mobileNavTo('projects')"><i class="fas fa-briefcase"></i> Projects</a>
+        <a onclick="mobileNavTo('contact')"><i class="fas fa-envelope"></i> Contact</a>
+    </div>
 
     <!-- ══════════════ HOME PAGE ══════════════ -->
     <div id="page-home" class="page active">
@@ -1996,6 +2130,39 @@
 
             return false;
         }
+        /* ── HAMBURGER MENU ── */
+        function toggleMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            hamburger.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.getElementById('hamburger').classList.remove('open');
+            document.getElementById('mobile-menu').classList.remove('open');
+        }
+
+        function mobileNavTo(section) {
+            closeMenu();
+            if (!document.getElementById('page-home').classList.contains('active')) {
+                history.replaceState(null, '', '#');
+                showPage('home', false);
+            }
+            setTimeout(() => {
+                const el = document.getElementById(section);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 60);
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (e) {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+                closeMenu();
+            }
+        });
     </script>
 </body>
 
