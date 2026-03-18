@@ -4,414 +4,1996 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maryam Siddique | Portfolio</title>
+    <title>Maryam Siddique · React Native Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* Reset */
+        :root {
+            --bg: #040b14;
+            --surface: #081220;
+            --surface2: #0d1d30;
+            --border: rgba(99, 179, 237, 0.12);
+            --accent: #38bdf8;
+            --accent2: #818cf8;
+            --accent3: #34d399;
+            --text: #e2e8f0;
+            --text-muted: #7e95b0;
+            --glow: rgba(56, 189, 248, 0.18);
+            --card-bg: rgba(13, 29, 48, 0.85);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
             line-height: 1.6;
-            background: #f9fafc;
-            color: #333;
+            overflow-x: hidden;
         }
 
-        header {
-            background: #111827;
-            color: #fff;
-            padding: 2rem;
-            text-align: center;
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
         }
 
-        header h1 {
-            font-size: 2.5rem;
+        /* ── AMBIENT GLOWS ── */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        header p {
-            margin-top: 0.5rem;
-            color: #9ca3af;
+        .orb1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(56, 189, 248, 0.07);
+            top: -100px;
+            right: -100px;
         }
 
-        /* Navbar */
+        .orb2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(129, 140, 248, 0.06);
+            bottom: 20%;
+            left: -150px;
+        }
+
+        .orb3 {
+            width: 300px;
+            height: 300px;
+            background: rgba(52, 211, 153, 0.05);
+            bottom: 0;
+            right: 10%;
+        }
+
+        /* ── NAV ── */
         nav {
-            background: #1f2937;
-            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0 2rem;
+            height: 68px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(4, 11, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
             justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'sans-serif';
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
             align-items: center;
         }
 
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-            letter-spacing: 2px;
-        }
-
-        nav .nav-links a {
-            color: #fff;
-            margin-left: 1.5rem;
+        .nav-links a {
+            color: var(--text-muted);
             text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
+            font-size: 0.92rem;
+            font-weight: 500;
+            padding: 0.45rem 1rem;
+            border-radius: 40px;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            cursor: pointer;
         }
 
-        nav .nav-links a:hover {
-            color: #60a5fa;
+        .nav-links a:hover {
+            color: var(--accent);
+            border-color: var(--border);
+            background: rgba(56, 189, 248, 0.06);
+        }
+
+        /* ── PAGES ── */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-enter {
+            animation: pageIn 0.35s ease both;
+        }
+
+        @keyframes pageIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* ── WRAPPER ── */
+        .page-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         section {
-            padding: 3rem 2rem;
-            max-width: 1000px;
-            margin: auto;
+            padding: 6rem 0;
         }
 
-        /* About Section */
-        .about {
-            text-align: center;
+        section:first-of-type {
+            padding-top: calc(68px + 4rem);
         }
 
-        .about img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-            border: 4px solid #1f2937;
+        /* ── SECTION LABEL ── */
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
 
-        .about h2 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            color: #1f2937;
+        .section-label::before {
+            content: '';
+            width: 28px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 2px;
         }
 
-        .about p {
-            margin: 0.5rem 0;
-            color: #444;
-            line-height: 1.7;
-        }
-
-        .about .tech-stack {
-            margin-top: 2rem;
-            text-align: left;
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .about .tech-stack h3 {
-            margin-bottom: 1rem;
-            color: #111827;
-        }
-
-        .about .tech-stack ul {
-            list-style: none;
-            columns: 2;
-            padding: 0;
-        }
-
-        .about .tech-stack li {
+        .section-title {
+            font-family: 'sans-serif';
+            font-size: 2.6rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #fff;
             margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #374151;
         }
 
-        .skills ul {
+        .section-sub {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 3rem;
+            max-width: 520px;
+        }
+
+        /* ── HERO ── */
+        #home {
+            padding-top: calc(68px + 2rem);
+            padding-bottom: 1rem;
+        }
+
+        .hero-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: 1fr 340px;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.06);
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .hero-badge span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(1.4)
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .hero-name {
+            font-family: 'sans-serif';
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #fff;
+            letter-spacing: -1px;
+            animation: fadeUp 0.6s 0.1s ease both;
+        }
+
+        .hero-name em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, var(--accent3) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-bio {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 1.2rem 0 2rem;
+            line-height: 1.7;
+            max-width: 480px;
+            animation: fadeUp 0.6s 0.2s ease both;
+        }
+
+        .hero-btns {
+            display: flex;
             gap: 1rem;
-            list-style: none;
-            padding: 0;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+            animation: fadeUp 0.6s 0.3s ease both;
         }
 
-        .skills li {
-            background: #e5e7eb;
-            padding: 0.8rem;
+        .btn {
+            padding: 0.75rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #020810;
+            font-weight: 700;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .hero-socials {
+            display: flex;
+            gap: 1rem;
+            animation: fadeUp 0.6s 0.4s ease both;
+        }
+
+        .hero-socials a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .hero-socials a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        /* hero right card */
+        .hero-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .hero-card h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.4rem;
+        }
+
+        .stack-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.75rem 0.8rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .stack-item:hover {
+            background: rgba(56, 189, 248, 0.06);
+            border-color: var(--border);
+        }
+
+        .stack-item i {
+            color: var(--accent);
+            font-size: 1.05rem;
+            width: 22px;
             text-align: center;
-            border-radius: 8px;
-            font-weight: bold;
         }
 
-        .projects {
+        .stack-item span {
+            font-size: 0.93rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* ── ABOUT ── */
+        .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .about-text p strong {
+            color: var(--text);
+        }
+
+        .about-stat-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.2rem 1.4rem;
+        }
+
+        .stat-card .num {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .tech-grid {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .tech-grid h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .tech-tag {
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s;
+        }
+
+        .tech-tag:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.06);
+        }
+
+        /* ── SKILLS ── */
+        #skills {
+            padding-top: 0%;
+            padding-bottom: 0%;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.5rem;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            transition: width 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .skill-card:hover::after {
+            width: 100%;
+        }
+
+        .skill-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .skill-card h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .skill-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        /* ── PROJECTS ── */
+        #projects {
+            padding-top: 0%;
+            padding-bottom: 0%;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
         }
 
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
 
-        /* Updated Project Styles */
-        .project {
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-thumb {
+            width: 100%;
+            height: 190px;
+            background: linear-gradient(135deg, var(--surface2), rgba(56, 189, 248, 0.08));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover .project-thumb img {
+            transform: scale(1.06);
+        }
+
+        .project-thumb-placeholder {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 1.5rem;
-            gap: 1.5rem;
-            transition: transform 0.3s;
+            justify-content: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, #0d1d30, #0a1928);
         }
 
+        .project-thumb-placeholder i {
+            font-size: 2.5rem;
+            color: rgba(56, 189, 248, 0.35);
+        }
 
-        .project:hover {
+        .project-thumb-placeholder span {
+            font-size: 0.8rem;
+            color: rgba(56, 189, 248, 0.4);
+            letter-spacing: 1px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* OVERLAY on hover */
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(4, 11, 20, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .overlay-cta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .project-info {
+            padding: 1.3rem;
+        }
+
+        .project-info h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .project-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.8rem;
+        }
+
+        .project-tags span {
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: var(--accent);
+        }
+
+        /* ── WHY CHOOSE ME ── */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+        }
+
+        .why-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 1.8rem 1.4rem;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .why-card:hover::before {
+            opacity: 1;
+        }
+
+        .why-card:hover {
             transform: translateY(-5px);
+            border-color: rgba(129, 140, 248, 0.3);
         }
 
-        .project-content {
-            flex: 1;
+        .why-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.15), rgba(56, 189, 248, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent2);
+            margin-bottom: 1.2rem;
         }
 
-        .project-content2 {
-            flex: 1;
-            margin-bottom: -20;
-        }
-
-        .project-content h3 {
-            margin-bottom: 0.5rem;
-            color: #1f2937;
-        }
-
-        .project-content p {
-            color: #444;
-        }
-
-        .project-image {
-            flex: 1;
-            text-align: center;
-        }
-
-        .project-image2 {
-            flex: 1;
-            text-align: center;
-            margin-top: -200;
-        }
-
-        .project-image2 h4 {
-            margin-bottom: 0.5rem;
+        .why-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
             font-size: 1rem;
-            color: #374151;
-        }
-
-        .project-image2 img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .project-image h4 {
+            color: #fff;
             margin-bottom: 0.5rem;
+        }
+
+        .why-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ── CONTACT ── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.05);
+            transform: translateX(4px);
+        }
+
+        .contact-item .ci-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .contact-item .ci-text h4 {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .contact-item .ci-text span {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .contact-form-wrap {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .contact-form-wrap h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            margin-bottom: 1rem;
+        }
+
+        .form-row input,
+        .form-row textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            color: var(--text);
+            font-size: 0.93rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: border 0.2s;
+            outline: none;
+        }
+
+        .form-row input::placeholder,
+        .form-row textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-row input:focus,
+        .form-row textarea:focus {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.04);
+        }
+
+        .form-row textarea {
+            resize: vertical;
+            border-radius: 12px;
+            min-height: 110px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border: none;
+            border-radius: 12px;
+            color: #020810;
+            font-weight: 700;
             font-size: 1rem;
-            color: #374151;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .project-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
         }
 
+        /* ── FOOTER ── */
         footer {
-            text-align: center;
-            padding: 1.5rem;
-            background: #111827;
-            color: #9ca3af;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0 2rem;
             margin-top: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Responsive projects layout */
-        @media (max-width: 768px) {
-            .project-card {
-                flex-direction: column;
-                text-align: center;
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-socials a {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .footer-socials a:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        /* ── PROJECT DETAIL PAGE ── */
+        #page-project {
+            padding-top: 68px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pd-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 1.1rem 0.5rem 0.8rem;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 2.5rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .back-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .pd-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .pd-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .pd-label::before {
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 2px;
+        }
+
+        .pd-title {
+            font-family: 'sans-serif';
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 0.6rem;
+        }
+
+        .pd-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .pd-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .pd-gallery .g-main,
+        .pd-gallery .g-side {
+            width: 100%;
+        }
+
+        .pd-img {
+            width: 330px;
+            height: 680px;
+            object-fit: cover;
+            display: block;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .pd-img-ph {
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: linear-gradient(135deg, #0a1520, #0d2035);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            color: rgba(56, 189, 248, 0.3);
+        }
+
+        .pd-img-ph i {
+            font-size: 2.2rem;
+        }
+
+        .pd-img-ph span {
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .pd-body {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .pd-desc-label {
+            font-family: 'sans-serif';
+            ;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .pd-desc p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.82;
+            margin-bottom: 1.2rem;
+        }
+
+        .pd-stack-box,
+        .pd-meta-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pd-stack-box h4,
+        .pd-meta-box h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.76rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .pd-stack-box h4 {
+            color: var(--accent);
+        }
+
+        .pd-meta-box h4 {
+            color: var(--accent2);
+        }
+
+        .pd-stack-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .pd-stack-tags span {
+            padding: 0.35rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: var(--accent);
+        }
+
+        .pd-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pd-meta-item:last-child {
+            border-bottom: none;
+        }
+
+        .pd-meta-item i {
+            color: var(--accent2);
+            font-size: 0.9rem;
+            width: 18px;
+            text-align: center;
+        }
+
+        .pd-meta-item .mi-label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            min-width: 60px;
+        }
+
+        .pd-meta-item strong {
+            font-size: 0.88rem;
+            color: var(--text);
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(56, 189, 248, 0.25);
+            border-radius: 4px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
             }
 
-            .project-card img {
-                width: 100%;
-                max-width: 300px;
-                margin: 1rem auto;
-            }
-
-            section {
-                padding: 2rem 1rem
-            }
-
-            h1,
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            p {
-                font-size: 1rem;
-            }
-
-            nav {
+            .hero-card {
                 display: none;
             }
 
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pd-body {
+                grid-template-columns: 1fr;
+            }
+
+            .pd-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pd-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media(max-width:600px) {
+            .hero-name {
+                font-size: 2.7rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links a {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.82rem;
+            }
+
+            .pd-gallery {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Maryam Siddique</h1>
-        <p>React Native | Full Stack Developer | MERN | Node JS | Flutter</p>
-    </header>
 
-    <!-- Navbar -->
+    <!-- Ambient glow orbs -->
+    <div class="glow-orb orb1"></div>
+    <div class="glow-orb orb2"></div>
+    <div class="glow-orb orb3"></div>
+
+    <!-- NAV -->
     <nav>
-        <div class="logo">MS</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
+        <div class="nav-inner">
+            <button class="logo" onclick="goHome()">MS</button>
+            <div class="nav-links">
+                <a onclick="navTo('home')">Home</a>
+                <a onclick="navTo('about')">About</a>
+                <a onclick="navTo('projects')">Projects</a>
+                <a onclick="navTo('contact')">Contact</a>
+            </div>
         </div>
     </nav>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <h2>About Me</h2>
-        <p>I'm <strong>Maryam Siddique</strong>, a Computer Science graduate and React Native developer specializing in
-            cross-platform mobile applications. I also work with the <strong>MERN stack</strong> and backend frameworks
-            like <strong>NestJS</strong>.</p>
+    <!-- ══════════════ HOME PAGE ══════════════ -->
+    <div id="page-home" class="page active">
+        <div class="page-wrap">
 
-        <p>I have built several real-world mobile apps, including music, e-commerce, and wellness applications. My focus
-            is on clean UI, performance, REST API integration, and creating smooth, user-friendly experiences.</p>
+            <!-- HERO -->
+            <section id="home">
+                <div class="hero-grid">
+                    <div class="hero-left">
+                        <div class="hero-badge">
+                            <span></span>
+                            Available for freelance & collaboration
+                        </div>
+                        <h1 class="hero-name">Maryam <em>Siddique</em></h1>
+                        <p class="hero-bio">React Native developer turning ideas into polished cross-platform mobile
+                            experiences. Clean UI, robust backend, smooth performance.</p>
+                        <div class="hero-btns">
+                            <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Get in
+                                touch</a>
+                            <a href="#projects" class="btn btn-ghost"><i class="fas fa-eye"></i> View work</a>
+                        </div>
+                        <div class="hero-socials">
+                            <a href="https://www.linkedin.com/in/maryam-siddique-10bab7264/" target="_blank"><i
+                                    class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/MaryamSiddiq" target="_blank"><i class="fab fa-github"></i></a>
+                            <a
+                                href="/cdn-cgi/l/email-protection#3954584b4058544a505d5d50484c5c0d0d00795e54585055175a5654"><i
+                                    class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                    <div class="hero-card">
+                        <h4>Quick Stack</h4>
+                        <div class="stack-item"><i class="fab fa-react"></i><span>React Native / Expo</span></div>
+                        <div class="stack-item"><i class="fas fa-server"></i><span>Node.js / NestJS</span></div>
+                        <div class="stack-item"><i class="fas fa-database"></i><span>MongoDB · MySQL · Supabase</span>
+                        </div>
+                        <div class="stack-item"><i class="fas fa-mobile-alt"></i><span>Flutter · Next.js</span></div>
+                        <div class="stack-item"><i class="fab fa-git-alt"></i><span>Git · Postman · Figma</span></div>
+                    </div>
+                </div>
+            </section>
 
+            <!-- ABOUT -->
+            <section id="about">
+                <div class="section-label">Who I am</div>
+                <h2 class="section-title">About me</h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p>I'm <strong>Maryam Siddique</strong>, a CS graduate and React Native specialist who crafts
+                            production-ready mobile applications. I've built real-world apps spanning music streaming,
+                            e-commerce, pet communities, and veterinary AI detection.</p>
+                        <p>I work across the full stack from pixel-perfect mobile UIs to REST APIs, databases. I love
+                            solving complex problems end-to-end and shipping experiences that users actually enjoy.</p>
+                        <p>📍 Based anywhere · Open to freelance & collaboration worldwide</p>
+                        <div class="about-stat-row"></div>
+                    </div>
+                    <div class="tech-grid">
+                        <h4>Technologies I use</h4>
+                        <div class="tech-tags">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">Expo</span>
+                            <span class="tech-tag">Redux Toolkit</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">NestJS</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Supabase</span>
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">MERN</span>
+                            <span class="tech-tag">Git & CI</span>
+                            <span class="tech-tag">Figma</span>
+                            <span class="tech-tag">Postman</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <div class="tech-stack">
-            <h3>Tech Stack</h3>
-            <ul>
-                <li>React.js, Redux, Node.js, NestJS</li>
-                <li>MongoDB, MySQL, PHP, C++, C#</li>
-                <li>React Native, Flutter</li>
-                <li>Cypress, Postman, Git, Figma</li>
-            </ul>
+            <!-- SKILLS -->
+            <section id="skills">
+                <div class="section-label">Expertise</div>
+                <h2 class="section-title">Skills</h2>
+                <p class="section-sub">A broad toolkit built through real shipped products — from UI to infrastructure.
+                </p>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fab fa-react"></i></div>
+                        <h4>React Native</h4>
+                        <p>Cross-platform iOS & Android apps with Expo, Redux Toolkit & smooth animations.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-server"></i></div>
+                        <h4>Node.js / NestJS</h4>
+                        <p>Scalable REST APIs, microservices architecture and clean backend patterns.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-database"></i></div>
+                        <h4>Databases</h4>
+                        <p>MongoDB, MySQL & Supabase — from schema design to complex queries.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-layer-group"></i></div>
+                        <h4>MERN Stack</h4>
+                        <p>Full-stack web applications with React, Express, Node and MongoDB.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-robot"></i></div>
+                        <h4>AI Integration</h4>
+                        <p>AI chatbot features, healthcare ML integration and smart wellness apps.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-paint-brush"></i></div>
+                        <h4>UI/UX Design</h4>
+                        <p>Pixel-perfect Figma designs translated into smooth, intuitive interfaces.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                        <h4>Git</h4>
+                        <p>Version control for tracking changes, managing code, and collaborating with teams.</p>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i class="fas fa-globe"></i></div>
+                        <h4>Next.js</h4>
+                        <p>Server-side rendered web apps, SEO optimization and API routes.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WHY CHOOSE ME -->
+            <section id="why-choose">
+                <div class="section-label">Why work with me</div>
+                <h2 class="section-title">What I bring</h2>
+                <p class="section-sub">More than just code — a thoughtful developer invested in your product's success.
+                </p>
+                <div class="why-grid">
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-rocket"></i></div>
+                        <h3>Fast delivery</h3>
+                        <p>From wireframe to app stores in record time, without cutting corners on quality.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-paint-brush"></i></div>
+                        <h3>Clean UI/UX</h3>
+                        <p>Pixel-perfect interfaces users love, designed with care and attention to detail.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-brain"></i></div>
+                        <h3>Full-stack mind</h3>
+                        <p>Not only mobile — I craft APIs, databases and smooth end-to-end integrations.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon"><i class="fas fa-heart"></i></div>
+                        <h3>AI & wellness</h3>
+                        <p>Experience with AI chatbots, healthcare apps and mental wellbeing platforms.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section id="projects">
+                <div class="section-label">My work</div>
+                <h2 class="section-title">Recent projects</h2>
+                <p class="section-sub">Click any project to open its full dedicated page with details, tech stack &
+                    screenshots.</p>
+                <div class="projects-grid">
+
+                    <div class="project-card" onclick="openProject('recipe')">
+                        <div class="project-thumb">
+                            <img src="images/recipie.jpeg" alt="Recipe App"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-utensils\'></i><span>Recipe App</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Recipe App</h3>
+                            <p>Step-by-step cooking guide with offline storage</p>
+                            <div class="project-tags"><span>React Native</span><span>Next.js</span><span>Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="openProject('vdermx')">
+                        <div class="project-thumb">
+                            <img src="images/vdermx.jpeg" alt="Vdermx"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-microscope\'></i><span>Vdermx</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Vdermx – Lumpy Skin</h3>
+                            <p>AI-based veterinary skin disease detection</p>
+                            <div class="project-tags"><span>NestJS</span><span>AI/ML</span><span>React Native</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="openProject('music')">
+                        <div class="project-thumb">
+                            <img src="images/Music.jpeg" alt="Vii Music"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-music\'></i><span>Vii Music</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Vii Music</h3>
+                            <p>Music streaming with personalized playlists</p>
+                            <div class="project-tags"><span>React Native</span><span>Node.js</span><span>MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="openProject('pet')">
+                        <div class="project-thumb">
+                            <img src="images/Pet.jpeg" alt="Pet App"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-paw\'></i><span>Pet Social</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Pet Adoption & Selling</h3>
+                            <p>Real-time social platform for pet owners</p>
+                            <div class="project-tags"><span>Flutter</span><span>Supabase</span><span>Real-time</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="openProject('stelys')">
+                        <div class="project-thumb">
+                            <img src="images/stelys-app.jpeg" alt="Stelys"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-spa\'></i><span>Stelys Wellness</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Stelys – Mental Wellness</h3>
+                            <p>AI chatbot, anxiety tracking & mindfulness</p>
+                            <div class="project-tags"><span>Expo</span><span>AI Chatbot</span><span>NestJS</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="openProject('eduko')">
+                        <div class="project-thumb">
+                            <img src="images/eduko.jpeg" alt="Eduko"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-graduation-cap\'></i><span>Eduko</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Eduka – Learning Platform</h3>
+                            <p>Frontend Clone of Eduka learning Platform</p>
+                            <div class="project-tags"><span>Expo</span><span>Async Storage</span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" onclick="openProject('ecom')">
+                        <div class="project-thumb">
+                            <img src="images/Ecommerce.jpeg" alt="E-commerce"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-shopping-bag\'></i><span>E-commerce</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>E-commerce Frontend</h3>
+                            <p>Cart, filters & secure checkout flow</p>
+                            <div class="project-tags"><span>React Native</span><span>Redux</span><span>Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- CONTACT -->
+            <!-- CONTACT section - replace the existing contact form with this -->
+           <!-- CONTACT section - replace with this version -->
+<section id="contact">
+    <div class="section-label">Let's talk</div>
+    <h2 class="section-title">Get in touch</h2>
+    <p class="section-sub">Have a project in mind? I'd love to hear about it.</p>
+    <div class="contact-grid">
+        <div class="contact-info">
+            <a href="https://www.linkedin.com/in/maryam-siddique-10bab7264/" target="_blank"
+                class="contact-item">
+                <div class="ci-icon"><i class="fab fa-linkedin"></i></div>
+                <div class="ci-text">
+                    <h4>LinkedIn</h4><span>maryam-siddique-10bab7264</span>
+                </div>
+            </a>
+            <a href="https://github.com/MaryamSiddiq" target="_blank" class="contact-item">
+                <div class="ci-icon"><i class="fab fa-github"></i></div>
+                <div class="ci-text">
+                    <h4>GitHub</h4><span>github.com/MaryamSiddiq</span>
+                </div>
+            </a>
+            <a href="mailto:maryamsiddique449@gmail.com" class="contact-item">
+                <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+                <div class="ci-text">
+                    <h4>Email</h4><span>maryamsiddique449@gmail.com</span>
+                </div>
+            </a>
         </div>
-    </section>
-
-    <!-- Skills -->
-    <section id="skills" class="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>React Native</li>
-            <li>Flutter</li>
-            <li>MERN</li>
-            <li>NodeJS</li>
-            <li>React.js</li>
-            <li>MongoDB</li>
-        </ul>
-    </section>
-
-    <!-- Projects -->
-    <section id="projects">
-        <h2>Projects</h2>
-        <div class="projects">
-
-            <div class="project">
-                <div class="project-content">
-                    <h3>Recipe App</h3>
-                    <p>A cross-platform recipe app developed using <strong>React Native</strong> and
-                        <strong>NextJS</strong>.
-                        Includes image uploads, offline storage, and step-by-step cooking guides.
-                    </p>
+        <div class="contact-form-wrap">
+            <h3>Send a message</h3>
+            <!-- Updated form with AJAX submission -->
+            <form id="contact-form" onsubmit="submitForm(event)">
+                <div class="form-row">
+                    <input type="text" name="name" id="name" placeholder="Your name" required>
                 </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/recipie.jpeg" alt="Recipe App Screenshot">
+                <div class="form-row">
+                    <input type="email" name="email" id="email" placeholder="Your email address" required>
                 </div>
-            </div>
-
-            <div class="project">
-                <div class="project-content">
-                    <h3>Vdermx App</h3>
-                    <p>A healthcare app for <strong>Lumpy Skin Disease detection</strong> using <strong>React
-                            Native</strong> and <strong>NestJS</strong>.
-                        Provides image-based disease detection and reports for veterinary use.</p>
+                <div class="form-row">
+                    <textarea name="message" id="message" placeholder="Tell me about your project..." required></textarea>
                 </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/vdermx.jpeg" alt="Vdermx App Screenshot">
-                </div>
-            </div>
-            <div class="project">
-                <div class="project-content">
-                    <h3>Music App</h3>
-                    <p>Vii Music: A complete music streaming platform with <strong>React Native</strong> mobile app and
-                        Node.js backend for personalized audio playback and user management.</p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/Music.jpeg" alt="Music App Screenshot">
-                </div>
-            </div>
-            <div class="project">
-                <div class="project-content">
-                    <h3>Pet Adoption & Selling App</h3>
-                    <p>An Instagram-like social platform built using <strong>Flutter</strong> and
-                        <strong>Supabase</strong>.
-                        Each user has a personal profile, can upload posts, browse pets,
-                        adopt or sell pets, and chat via real-time direct messages.
-                        Features include image uploads, notifications, and a social feed.
-                    </p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/Pet.jpeg" alt="Pet App Screenshot">
-                </div>
-            </div>
-            <div class="project">
-                <div class="project-content">
-                    <h3>Stelys – Mental Wellness App</h3>
-                    <p>A <strong>React Native (Expo)</strong> mobile app designed as a safe space for users to talk,
-                        reflect, and find support.
-                        It provides resources on anxiety, sleep, mindfulness, and stress management through a clean and
-                        intuitive interface.
-                        The app also includes an <strong>AI chatbot</strong> for real-time supportive conversations.</p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/stelys-app.jpeg" alt="Stelys Mental Wellness App Screenshot">
-                </div>
-            </div>
-            <div class="project">
-                <div class="project-content">
-                    <h3>E-commerce App</h3>
-                    <p>A fully responsive and cleanly coded <strong>React Native</strong> frontend for an e-commerce
-                        platform.
-                        Features include product browsing, search & filter, shopping cart, secure checkout, and smooth
-                        navigation.
-                        Focused on performance, usability.</p>
-                </div>
-                <div class="project-image">
-                    <h4>Preview</h4>
-                    <img src="images/Ecommerce.jpeg" alt="E-commerce App Screenshot">
-                </div>
-            </div>
-
-
+                <button type="submit" class="form-submit" id="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send message
+                </button>
+            </form>
+            <div id="form-status" style="margin-top: 1rem; text-align: center;"></div>
         </div>
-    </section>
+    </div>
+</section>
+        </div><!-- /page-wrap -->
 
-    <!-- Contact -->
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: <a href="mailto:maryamsiddique449@gmail.com">maryamsiddique449@gmail.com</a></p>
-    </section>
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-logo">Maryam Siddique</div>
+                <div class="footer-tagline">React Native Developer · Clean code, human experiences</div>
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/in/maryam-siddique-10bab7264/" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/MaryamSiddiq" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="/cdn-cgi/l/email-protection#b3ded2c1cad2dec0dad7d7dac2c6d687878af3d4ded2dadf9dd0dcde"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+                <div class="footer-copy">© 2025 Maryam Siddique · Built with <i class="fas fa-heart"
+                        style="color:#f87171"></i> for the mobile world</div>
+            </div>
+        </footer>
+    </div><!-- /page-home -->
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Maryam Siddique. All rights reserved.</p>
-    </footer>
+
+    <!-- ══════════════ PROJECT DETAIL PAGE ══════════════ -->
+    <div id="page-project" class="page">
+        <div class="pd-wrap" id="pd-content"></div>
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-logo">Maryam Siddique</div>
+                <div class="footer-tagline">React Native Developer · Clean code, human experiences</div>
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/in/maryam-siddique-10bab7264/" target="_blank"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/MaryamSiddiq" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="/cdn-cgi/l/email-protection#b3ded2c1cad2dec0dad7d7dac2c6d687878af3d4ded2dadf9dd0dcde"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+                <div class="footer-copy">© 2025 Maryam Siddique · Built with <i class="fas fa-heart"
+                        style="color:#f87171"></i> for the mobile world</div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        /* ── PROJECT DATA ── */
+        const projects = {
+            // ... (keep your existing projects data here, it's fine)
+            recipe: {
+                label: "Mobile App",
+                title: "Recipe App",
+                subtitle: "A full-featured cooking companion for iOS & Android",
+                icon: "fa-utensils", type: "Mobile Application", year: "2025", platform: "iOS & Android",
+                images: ["images/recipie1.jpg", "images/recipie2.jpg", "images/recipie3.jpg", "images/recipie4.jpg"],
+                desc: [
+                    "A beautifully designed Recipe App built with React Native and Next.js that helps users discover, save, and cook their favorite meals. The app features step-by-step cooking guides with built-in timers, ingredient scaling for different serving sizes, and fully offline storage so recipes are always accessible — even without internet.",
+                    "Users can browse recipes by category, search by ingredients they have at home, bookmark favorites, and rate dishes after cooking. The backend, powered by Node.js and MongoDB, handles user authentication, recipe syncing across devices, and image uploads via cloud storage."
+                ],
+                stack: ["React Native", "Expo", "Next.js", "Node.js", "MongoDB", "AsyncStorage", "Redux Toolkit"]
+            },
+            vdermx: {
+                label: "Healthcare · AI",
+                title: "Vdermx – Lumpy Skin Detection",
+                subtitle: "AI-powered veterinary healthcare app",
+                icon: "fa-microscope", type: "Healthcare App", year: "2025", platform: "iOS & Android",
+                images: ["images/v.jpeg", "images/v1.jpg", "images/v2.jpeg", "images/v3.jpeg"],
+                desc: [
+                    "Vdermx is an intelligent healthcare application designed to assist veterinarians and farmers in detecting Lumpy Skin Disease (LSD) in cattle using image-based AI diagnosis. Users can capture or upload images of affected animals, and the system returns a confidence-scored diagnosis within seconds.",
+                    "The app was built with React Native for the mobile frontend, NestJS for the robust backend API layer, and integrates a machine learning model trained on veterinary datasets. The platform also includes a case management dashboard, where vets can log patient history, track disease progression, and export reports."
+                ],
+                stack: ["React Native", "Expo", "NestJS", "TensorFlow (ML)", "MySQL", "Node.js", "REST API", "JWT Auth"]
+            },
+            music: {
+                label: "Music Streaming",
+                title: "Vii Music",
+                subtitle: "Personalized music streaming for mobile",
+                icon: "fa-music", type: "Streaming App", year: "2025", platform: "iOS & Android",
+                images: ["images/music1.jpeg", "images/music2.jpeg", "images/music3.jpeg", "images/music4.jpeg", "images/music5.jpeg"],
+                desc: [
+                    "Vii Music is a fully functional music streaming application that delivers a Spotify-like experience on both iOS and Android. The app features personalized playlists generated from listening history, real-time audio streaming with background playback support, and a social feed where users can share what they're listening to.",
+                    "The backend, built on Node.js with MongoDB, handles music metadata, user libraries, playlist CRUD, and streaming endpoints. The React Native frontend uses a custom audio player with gesture controls, visualizer effects, and smooth transitions between tracks."
+                ],
+                stack: ["React Native", "Expo", "Node.js", "MongoDB", "Redux Toolkit", "Youtube API"]
+            },
+            pet: {
+                label: "Social · Marketplace",
+                title: "Pet Adoption & Selling",
+                subtitle: "A social platform connecting pet lovers",
+                icon: "fa-paw", type: "Social + Marketplace", year: "2026", platform: "iOS & Android",
+                images: ["images/Pet.jpeg", "images/pet1.jpeg", "images/pet2.jpeg", "images/pet3.jpeg"],
+                desc: [
+                    "A Flutter-based mobile application that creates a warm community for pet owners, adopters, and breeders. The app combines a social feed — where users can post photos and updates about their pets — with a marketplace for adoption listings and sales.",
+                    "Key features include real-time chat between buyers and sellers powered by Supabase's real-time subscriptions, location-based filtering to find nearby pets, push notifications for new messages and matches, and a secure in-app transaction flow."
+                ],
+                stack: ["Flutter", "Dart", "Supabase", "PostgreSQL", "Supabase Auth", "Supabase Storage"]
+            },
+            stelys: {
+                label: "Mental Wellness · AI",
+                title: "Stelys – Mental Wellness",
+                subtitle: "AI-powered mental health & mindfulness app",
+                icon: "fa-spa", type: "Wellness App", year: "2026", platform: "iOS & Android",
+                images: ["images/steyls1.jpeg", "images/stelys2.jpeg", "images/stelys3.jpeg", "images/stelys4.jpeg", "images/stelys5.jpeg"],
+                desc: [
+                    "Stelys is a compassionate mental wellness platform built with Expo that combines AI-powered conversation with practical mindfulness tools. The heart of the app is an empathetic AI chatbot that guides users through anxiety check-ins, breathing exercises, and cognitive reframing techniques.",
+                    "The app features daily mood tracking with beautiful chart visualizations, a guided meditation library, journaling with sentiment analysis, and curated content for stress and anxiety management. The NestJS backend manages user sessions, mood history, and AI conversation context."
+                ],
+                stack: ["Expo", "React Native", "NestJS", "MongoDB", "OpenAI API Gemini", "Redux Toolkit", "Node.js"]
+            },
+            eduko: {
+                label: "Education",
+                title: "Eduka – Learning Platform",
+                subtitle: "Frontend clone of the Eduka learning platform",
+                icon: "fa-graduation-cap", type: "Education App", year: "2025", platform: "iOS & Android",
+                images: ["images/eduka1.jpeg", "images/eduka3.jpeg", "images/eduka2.jpeg", "images/eduka4.jpeg", "images/eduka5.jpeg"],
+                desc: [
+                    "A faithful frontend clone of the Eduka learning platform built with Expo and React Native. The app replicates the core UI/UX of a modern e-learning experience including course listings, lesson detail screens, progress tracking, and a clean onboarding flow.",
+                    "Async Storage is used to persist user progress and preferences locally, ensuring a smooth experience even offline. The project demonstrates strong UI skills and the ability to reverse-engineer and implement complex design systems in a mobile environment."
+                ],
+                stack: ["Expo", "React Native", "Async Storage", "React Navigation"]
+            },
+            ecom: {
+                label: "E-commerce",
+                title: "E-commerce Frontend",
+                subtitle: "Clean, conversion-focused shopping experience",
+                icon: "fa-shopping-bag", type: "E-commerce App", year: "2026", platform: "iOS & Android",
+                images: ["images/e1.jpeg", "images/e2.jpeg", "images/e3.jpeg", "images/e4.jpeg", "images/e5.jpeg"],
+                desc: [
+                    "A polished React Native e-commerce frontend that prioritizes user experience and conversion. The app features a smooth product browsing experience with advanced filters (category, price range, ratings), a persistent cart with real-time quantity updates, and a streamlined checkout flow with multiple payment method support.",
+                    "Product pages include high-resolution image carousels, detailed descriptions, customer reviews with star ratings, and related product recommendations. The app uses Redux Toolkit for global state management, ensuring seamless data flow across cart, wishlist, and order history."
+                ],
+                stack: ["React Native", "Expo", "Redux Toolkit", "Node.js", "MongoDB", "Stripe API", "React Navigation", "Axios"]
+            }
+        };
+
+        /* ── PAGE SWITCHING ── */
+        function showPage(id, animate) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active', 'page-enter'));
+            const pg = document.getElementById('page-' + id);
+            if (pg) {
+                pg.classList.add('active');
+                if (animate) {
+                    void pg.offsetWidth;
+                    pg.classList.add('page-enter');
+                }
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }
+
+        function goHome() {
+            // Replace the current state instead of pushing a new one
+            history.replaceState(null, '', '#');
+            showPage('home', true);
+        }
+
+        function navTo(section) {
+            if (!document.getElementById('page-home').classList.contains('active')) {
+                history.replaceState(null, '', '#');
+                showPage('home', false);
+            }
+            setTimeout(() => {
+                const el = document.getElementById(section);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 60);
+        }
+
+        /* ── OPEN PROJECT PAGE ── */
+        function openProject(id) {
+            const p = projects[id];
+            if (!p) return;
+
+            const ph = (icon) =>
+                `<div class="pd-img-ph"><i class="fas ${icon}"></i><span>Screenshot</span></div>`;
+
+            function imgTag(src, cls) {
+                return `<img class="${cls}" src="${src}" alt="${p.title}"
+      onerror="this.outerHTML='${ph(p.icon).replace(/'/g, "\\'").replace(/"/g, '&quot;')}'">`;
+            }
+
+            document.getElementById('pd-content').innerHTML = `
+    <button class="back-btn" onclick="goBack()">
+      <i class="fas fa-arrow-left"></i> Back to projects
+    </button>
+    <div class="pd-header">
+      <div class="pd-label">${p.label}</div>
+      <h1 class="pd-title">${p.title}</h1>
+      <p class="pd-subtitle">${p.subtitle}</p>
+    </div>
+    <div class="pd-gallery">
+      ${p.images.map(src => `<div>${imgTag(src, 'pd-img')}</div>`).join('')}
+    </div>
+    <div class="pd-body">
+      <div class="pd-desc">
+        <div class="pd-desc-label">About this project</div>
+        ${p.desc.map(d => `<p>${d}</p>`).join('')}
+      </div>
+      <div class="pd-sidebar">
+        <div class="pd-stack-box">
+          <h4>Tech stack</h4>
+          <div class="pd-stack-tags">${p.stack.map(s => `<span>${s}</span>`).join('')}</div>
+        </div>
+        <div class="pd-meta-box">
+          <h4>Project info</h4>
+          <div class="pd-meta-item"><i class="fas fa-tag"></i><span class="mi-label">Type</span><strong>${p.type}</strong></div>
+          <div class="pd-meta-item"><i class="fas fa-calendar-alt"></i><span class="mi-label">Year</span><strong>${p.year}</strong></div>
+          <div class="pd-meta-item"><i class="fas fa-mobile-alt"></i><span class="mi-label">Platform</span><strong>${p.platform}</strong></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+            // Push the new state for the project
+            history.pushState({ page: 'project', projectId: id }, '', '#project/' + id);
+            showPage('project', true);
+        }
+
+        function goBack() {
+            // This will trigger the popstate event
+            history.back();
+        }
+
+        /* ── BROWSER BACK/FORWARD ── */
+        window.addEventListener('popstate', function (event) {
+            // Check if we have state data
+            if (event.state) {
+                if (event.state.page === 'project' && event.state.projectId) {
+                    // If we're going back to a project page
+                    openProject(event.state.projectId);
+                    return;
+                }
+            }
+
+            // Handle URL hash
+            if (location.hash) {
+                if (location.hash.startsWith('#project/')) {
+                    const id = location.hash.replace('#project/', '');
+                    if (projects[id]) {
+                        openProject(id);
+                        return;
+                    }
+                }
+            } else {
+                // No hash means we should show the home page
+                showPage('home', false);
+            }
+        });
+
+        /* ── INITIAL PAGE LOAD ── */
+        // Handle initial page load based on URL
+        window.addEventListener('load', function () {
+            if (location.hash && location.hash.startsWith('#project/')) {
+                const id = location.hash.replace('#project/', '');
+                if (projects[id]) {
+                    openProject(id);
+                } else {
+                    showPage('home', false);
+                }
+            } else {
+                showPage('home', false);
+            }
+        });
+
+        // Also handle the initial state (in case the page loads with a hash)
+        if (location.hash && location.hash.startsWith('#project/')) {
+            const id = location.hash.replace('#project/', '');
+            if (projects[id]) {
+                // Use setTimeout to ensure DOM is ready
+                setTimeout(() => openProject(id), 100);
+            }
+        }
+        // Form submission handler for Formspree (stays on page)
+function submitForm(event) {
+    event.preventDefault();
+    
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const statusDiv = document.getElementById('form-status');
+    
+    // Get form data
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+    };
+    
+    // Show loading state
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
+    statusDiv.innerHTML = '';
+    
+    // Send to Formspree
+    fetch('https://formspree.io/f/xreyrgeo', {  // Replace with your actual Formspree endpoint
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok');
+    })
+    .then(data => {
+        // Success message
+        statusDiv.innerHTML = '<span style="color: #34d399; font-weight: 500;">✓ Message sent successfully! I\'ll get back to you soon.</span>';
+        form.reset(); // Clear the form
+    })
+    .catch(error => {
+        // Error message
+        statusDiv.innerHTML = '<span style="color: #f87171; font-weight: 500;">✗ Failed to send. Please email me directly at maryamsiddique449@gmail.com</span>';
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Clear status message after 5 seconds
+        setTimeout(() => {
+            statusDiv.innerHTML = '';
+        }, 5000);
+    });
+    
+    return false;
+}
+    </script>
 </body>
 
 </html>
+
