@@ -1733,7 +1733,22 @@
                             <div class="project-tags"><span>Expo</span><span>Async Storage</span></div>
                         </div>
                     </div>
-
+                    <div class="project-card" onclick="openProject('furniture')">
+                        <div class="project-thumb">
+                            <img src="images/f9.jpeg" alt="E-commerce"
+                                onerror="this.parentElement.innerHTML='<div class=\'project-thumb-placeholder\'><i class=\'fas fa-shopping-bag\'></i><span>E-commerce</span></div>'">
+                            <div class="project-overlay">
+                                <div class="overlay-cta"><i class="fas fa-arrow-up-right-from-square"></i> View project
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Furniture Shop</h3>
+                            <p>Discover and shop premium furniture</p>
+                            <div class="project-tags"><span>React Native</span><span>Strapi</span><span>Node.js</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="project-card" onclick="openProject('ecom')">
                         <div class="project-thumb">
                             <img src="images/Ecommerce.jpeg" alt="E-commerce"
@@ -1922,6 +1937,45 @@
                     "Async Storage is used to persist user progress and preferences locally, ensuring a smooth experience even offline. The project demonstrates strong UI skills and the ability to reverse-engineer and implement complex design systems in a mobile environment."
                 ],
                 stack: ["Expo", "React Native", "Async Storage", "React Navigation"]
+            },
+            furniture: {
+                label: "Furniture Shop",
+                title: "Crafty Furniture — E-commerce App",
+                subtitle: "Discover and shop premium furniture with seamless browsing, smart cart management.",
+                icon: "fa-couch",
+                type: "E-commerce Mobile App",
+                year: "2026",
+                platform: "iOS & Android",
+                images: [
+                    "images/f1.jpeg",
+                    "images/f2.jpeg",
+                    "images/f3.jpeg",
+                    "images/f4.jpeg",
+                    "images/f5.jpeg",
+                    "images/f6.jpeg",
+                    "images/f7.jpeg",
+                    "images/f8.jpeg"
+                ],
+                desc: [
+                    "Crafty Furniture is a full-stack mobile e-commerce application built with React Native and Expo, designed to deliver a premium furniture shopping experience on both iOS and Android from a single codebase. The app features a beautifully crafted home screen with dynamic promotional banners, horizontally scrollable product sections including Featured and Popular collections, and an interactive category filter system all powered by real-time data fetched from a Strapi v5 headless CMS backend.",
+
+                    "The backend is built on Node.js and Express, acting as a middleware layer between the React Native app and the Strapi CMS. It handles all business logic including JWT-based authentication with secure password hashing using bcryptjs, order placement with automatic stock reduction in Strapi after every purchase, user registration and login, and protected routes for order history. User accounts and orders are stored in a PostgreSQL database hosted on Neon, while all content products, categories, banners, and reviews — is managed through the Strapi admin dashboard, allowing non-technical team members to update the store without touching any code.",
+
+                    "The app architecture follows a clean separation of concerns with custom React hooks like useHomeData for API logic, reusable components organized by feature under src/components/home/, shared TypeScript interfaces in src/types/, and a centralized API service layer using Axios with automatic JWT token injection on every request. The navigation is handled by Expo Router with file-based routing, supporting deep linking and a bottom tab navigator covering Home, Browse, Cart, Orders, and Profile screens.",
+                ],
+                stack: [
+                    "React Native",
+                    "Expo Router",
+                    "TypeScript",
+                    "Node.js",
+                    "Strapi v5",
+                    "PostgreSQL",
+                    "Neon",
+                    "JWT Auth",
+                    "Axios",
+                    "AsyncStorage",
+                    "React Context API",
+                ]
             },
             ecom: {
                 label: "E-commerce",
